@@ -11,10 +11,12 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="Serilog" Version="2.11.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\RedisPagination.Business\RedisPagination.Business.csproj" />
     <ProjectReference Include="..\..\RedisPagination.Core\RedisPagination.Core.csproj" />
     <ProjectReference Include="..\..\RedisPagination.Data\RedisPagination.Data.csproj" />
   </ItemGroup>

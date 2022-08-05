@@ -1,0 +1,6 @@
+﻿
+
+namespace RedisPagination.Business.Constants
+{
+  
+}

@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using RedisPagination.Business.Constants;
 using RedisPagination.Core;
 using RedisPagination.Data;
 
@@ -22,7 +23,7 @@ namespace RedisPagination.Business
 
             var result = Mapper.Map<IEnumerable<TEntity>, IEnumerable<TDto>>(tempEntity);
 
-            return new SuccessDataResult<IEnumerable<TDto>>(result);
+            return new SuccessDataResult<IEnumerable<TDto>>(result, Messages.GETALL_DATA);
         }
 
         public async Task<IDataResult<TDto>> GetByIdAsync(int id)
@@ -31,7 +32,7 @@ namespace RedisPagination.Business
 
             var result = Mapper.Map<TEntity, TDto>(tempEntity);
 
-            return new SuccessDataResult<TDto>(result);
+            return new SuccessDataResult<TDto>(result, Messages.GET_DATA);
         }
 
         public async Task<IDataResult<TDto>> InsertAsync(TDto insertResource)
@@ -44,11 +45,11 @@ namespace RedisPagination.Business
                 await _genericRepository.InsertAsync(tempEntity);
                 await UnitOfWork.CompleteAsync();
 
-                return new SuccessDataResult<TDto>(Mapper.Map<TEntity, TDto>(tempEntity));
+                return new SuccessDataResult<TDto>(Mapper.Map<TEntity, TDto>(tempEntity), Messages.INSERT_DATA);
             }
             catch (Exception ex)
             {
-                throw new MessageResultException("Saving_Error", ex);
+                throw new MessageResultException(Messages.ADD_DATA_ERROR, ex);
             }
         }
 
@@ -59,16 +60,16 @@ namespace RedisPagination.Business
                 // Validate Id is existent
                 var tempEntity = await _genericRepository.GetByIdAsync(id);
                 if (tempEntity is null)
-                    return new ErrorDataResult<TDto>("Id_NoData");
+                    return new ErrorDataResult<TDto>(Messages.GET_NO_ID_DATA);
 
-                await _genericRepository.RemoveAsync(tempEntity);
+                _genericRepository.Remove(tempEntity);
                 await UnitOfWork.CompleteAsync();
 
-                return new SuccessDataResult<TDto>(Mapper.Map<TEntity, TDto>(tempEntity));
+                return new SuccessDataResult<TDto>(Mapper.Map<TEntity, TDto>(tempEntity), Messages.DELETE_DATA);
             }
             catch (Exception ex)
             {
-                throw new MessageResultException("Deleting_Error", ex);
+                throw new MessageResultException(Messages.DELETE_DATA_ERROR, ex);
             }
         }
 
@@ -78,7 +79,7 @@ namespace RedisPagination.Business
             {
                 var tempEntity = await _genericRepository.GetByIdAsync(id);
                 if (tempEntity is null)
-                    return new ErrorDataResult<TDto>("NoData");
+                    return new ErrorDataResult<TDto>(Messages.GET_NO_ID_DATA);
 
                 Mapper.Map(updateResource, tempEntity);
 
@@ -86,11 +87,11 @@ namespace RedisPagination.Business
 
                 var resource = Mapper.Map<TEntity, TDto>(tempEntity);
 
-                return new SuccessDataResult<TDto>(resource);
+                return new SuccessDataResult<TDto>(resource, Messages.UPDATE_DATA);
             }
             catch (Exception ex)
             {
-                throw new MessageResultException("Updating_Error", ex);
+                throw new MessageResultException(Messages.UPDATE_DATA_ERROR, ex);
             }
         }
     }
