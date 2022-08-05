@@ -6,7 +6,7 @@ using System.Text;
 
 namespace RedisPagination.Core
 {
-    public class RedisCacheService : ICacheService
+    public class RedisCacheService : IDistrubutedCacheService
     {
         #region Fields
 

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace RedisPagination.Core
 {
-    public interface ICacheService
+    public interface IDistrubutedCacheService
     {
         T Get<T>(string key);
         IList<T> GetAll<T>(string key);

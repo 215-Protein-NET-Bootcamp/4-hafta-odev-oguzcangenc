@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace RedisPagination.Data
 {
-    public interface IPersonRepository:IBaseRepository<Person>
+    public interface IEmployeeRepository:IGenericRepository<Employee>
     {
     }
 }

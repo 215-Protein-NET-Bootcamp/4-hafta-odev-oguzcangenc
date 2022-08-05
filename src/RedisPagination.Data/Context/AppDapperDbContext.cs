@@ -5,12 +5,12 @@ using System.Data;
 
 namespace RedisPagination.Data
 {
-    public class DapperDbContext
+    public class AppDapperDbContext
     {
         public readonly IOptions<DatabaseConfig> _config;
         private readonly string connectionString;
 
-        public DapperDbContext(IOptions<DatabaseConfig> config)
+        public AppDapperDbContext(IOptions<DatabaseConfig> config)
         {
             _config = config;
             connectionString = _config.Value.ConnectionString;

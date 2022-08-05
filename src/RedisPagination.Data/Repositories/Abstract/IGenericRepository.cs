@@ -1,9 +1,8 @@
-﻿using RedisPagination.Core;
-using System.Linq.Expressions;
+﻿using System.Linq.Expressions;
 
 namespace RedisPagination.Data
 {
-    public interface IBaseRepository<TEntity> where TEntity : class
+    public interface IGenericRepository<TEntity> where TEntity : class
     {
         Task<TEntity> GetByIdAsync(int entityId);
         Task InsertAsync(TEntity entity);
