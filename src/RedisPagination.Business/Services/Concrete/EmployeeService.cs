@@ -23,17 +23,23 @@ namespace RedisPagination.Business
 
         public async Task<IDataResult<IEnumerable<EmployeeDto>>> GetPaginationAsync(PaginationFilter paginationFilter, EmployeeDto filterResource, string route)
         {
-
             var cacheKey = $"{route}-{paginationFilter.PageNumber}-{paginationFilter.PageSize}";
             string json;
-            PaginatedResult<IEnumerable<EmployeeDto>> employees;
-
+            PaginationEntityResponse<EmployeeDto> employees;
             var employeesFromCache = await distributedCache.GetAsync(cacheKey);
             if (employeesFromCache != null)
             {
-                    json = Encoding.UTF8.GetString(employeesFromCache);
-                    employees = JsonConvert.DeserializeObject<PaginatedResult<IEnumerable<EmployeeDto>>>(json);
-                    return employees;
+                json = Encoding.UTF8.GetString(employeesFromCache);
+                employees = JsonConvert.DeserializeObject<PaginationEntityResponse<EmployeeDto>>(json);
+                return new PaginatedResult<IEnumerable<EmployeeDto>>(employees.Data, employees.PageNumber, employees.PageSize)
+                {
+                    PreviousPage = employees.PreviousPage,
+                    NextPage = employees.NextPage,
+                    LastPage = employees.LastPage,
+                    FirstPage = employees.FirstPage,
+                    TotalPages = employees.TotalPages,
+                    TotalRecords = employees.TotalRecords
+                };
             }
             else
             {
@@ -47,12 +53,7 @@ namespace RedisPagination.Business
                 await distributedCache.SetAsync(cacheKey, employeesFromCache, options);
                 return resource;
             }
-
-
-
-
         }
-
         private PaginatedResult<IEnumerable<EmployeeDto>> GeneratePagination(PaginationFilter paginationFilter, string route, (IEnumerable<Employee> records, int total) paginationPerson)
         {
             var tempResource = Mapper.Map<IEnumerable<Employee>, IEnumerable<EmployeeDto>>(paginationPerson.records);

@@ -1,14 +1,8 @@
-﻿using System.Text.Json.Serialization;
-
-namespace RedisPagination.Core
+﻿namespace RedisPagination.Core
 {
     public class PaginatedResult<T> : IDataResult<T>
     {
-        [JsonConstructor]
-        public PaginatedResult()
-        {
-
-        }
+        
         public PaginatedResult(T data, int pageNumber, int pageSize)
         {
             PageNumber = pageNumber <= 0 ? 1 : pageNumber;
@@ -29,6 +23,7 @@ namespace RedisPagination.Core
         public Uri? PreviousPage { get; set; }
         public int TotalPages { get; set; }
         public int TotalRecords { get; set; }
+
 
         public PaginatedResult(T resource)
         {
