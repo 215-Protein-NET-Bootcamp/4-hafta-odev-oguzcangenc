@@ -6,7 +6,6 @@ namespace RedisPagination.Core
     {
         public static void AddCoreLayerRegisterServices(this IServiceCollection services)
         {
-            // Register your services here
 
         }
 

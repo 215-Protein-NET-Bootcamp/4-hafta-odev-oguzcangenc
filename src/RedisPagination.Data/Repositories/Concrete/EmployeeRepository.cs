@@ -22,7 +22,7 @@ namespace RedisPagination.Data
             var records = await queryable.AsNoTracking()
                 .AsSplitQuery()
                 .OrderBy(x => x.Id)
-                .Skip((paginationFilter.Page - 1) * paginationFilter.PageSize)
+                .Skip((paginationFilter.PageNumber - 1) * paginationFilter.PageSize)
                 .Take(paginationFilter.PageSize)
                 .ToListAsync();
 

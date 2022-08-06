@@ -5,7 +5,7 @@
         public static void CreatePaginationResponse<Response, Pagination>(this PaginatedResult<Response> response, Pagination pagination, int totalRecords, IRelatePaginationUri relatePaginationUri, string route) where Pagination : PaginationFilter
         {
             // Assign Query-Resource
-            response.PageNumber = pagination.Page;
+            response.PageNumber = pagination.PageNumber;
             response.PageSize = pagination.PageSize;
             // Assign Total-Pages
             var totalPages = ((double)totalRecords / (double)pagination.PageSize);
